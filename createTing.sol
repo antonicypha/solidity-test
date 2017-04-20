@@ -60,7 +60,7 @@ contract InterPlanetaryArchive is owned {
         string description;
         string customData;
         uint creationTime;
-        Member[] owners;
+        address[] owners;
         Ting[] tings;
     }
 
@@ -83,10 +83,10 @@ contract InterPlanetaryArchive is owned {
     }
 
     /* First time setup */
-    function InterPlanetaryArchive(address founder) payable {
-        if (founder != 0) owner = founder;
+    function InterPlanetaryArchive() payable {
+        
         // It’s necessary to add an empty first member
-        changeMembership(0, false, ''); 
+        changeMembership(msg.sender, false, 'Init'); 
         // and let's add the founder, to save a step later
         changeMembership(owner, true, 'Founder');
     }
@@ -104,7 +104,7 @@ contract InterPlanetaryArchive is owned {
             m.canCreate = canCreate;
         }
 
-        MembershipChanged(targetMember, canCreate;
+        MembershipChanged(targetMember, canCreate);
 
     }
 
@@ -128,14 +128,14 @@ contract InterPlanetaryArchive is owned {
         Ting t = tings[tl];
         //Basic Ting data
         t.tingId = keccak256(creator, now, transactionBytecode);
-        t.currentOwnern = creator;
+        t.currentOwner = creator;
         t.creator = creator;
         t.description = tingDescription;
         t.customData = customData;
         t.creationTime = now;
         //Array Ting data
         t.owners[0] = creator;
-        t.tings[0] = '';
+        //t.tings[0] = '';
         // Fire Event, raise num counter & register new ting
         TingAdded(t.tingId, t.creator, t.creationTime, t.description);
         numTings = tl+1;
