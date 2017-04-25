@@ -85,7 +85,7 @@ contract InterPlanetaryArchive is owned {
     /* First time setup */
     function InterPlanetaryArchive() payable {
         
-        // It’s necessary to add an empty first member
+        // It’s necessary to add an empty first member #cypha: not sure why, I just init the 1st entry
         changeMembership(msg.sender, false, 'Init'); 
         // and let's add the founder, to save a step later
         changeMembership(owner, true, 'Founder');
